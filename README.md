@@ -1,6 +1,6 @@
 # Preact and NativeScript
 
-Building upon [this try](https://github.com/staydecent/nativescript-preact) I suggest in this approach to not use undom as a middle layer. A real preact-to-nativescript lib should directly translate jsx-elements to typescript, similar to [ink](https://github.com/vadimdemedes/ink) or [preact-server-render](https://github.com/marvinhagemeister/preact-server-renderer)
+Building upon [this try](https://github.com/staydecent/nativescript-preact) I suggest in this approach to not use undom as a middle layer. A real preact-to-nativescript lib should directly translate jsx-elements to nativescript, similar to [ink](https://github.com/vadimdemedes/ink) or [preact-server-render](https://github.com/marvinhagemeister/preact-server-renderer)
 
 ## What works
 Super basic translation and on change complete rebuilding the native components (so no real state sync efficient rendering or anything yet)
