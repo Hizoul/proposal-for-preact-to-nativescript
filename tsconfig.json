@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "allowJs": false,
+        "jsx": "react",
+        "jsxFactory": "h",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "noEmitHelpers": true,
+        "noEmitOnError": false,
+        "lib": [
+            "es6",
+            "dom"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "./node_modules/tns-core-modules/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "platforms",
+        "**/*.aot.ts"
+    ]
+}
