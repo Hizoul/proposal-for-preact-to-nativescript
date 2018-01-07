@@ -5,10 +5,10 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 ## Whats tested
 - Basic handling of events
 - Adjusting UI to state changes
+- Styling by using className or id as identifier
 
 ## What needs to be done
 - Figure out why always full rebuild is done instead of using setAttribute
-- Styling
 - Try out and add wrappers for all NativeScript components
 - Routing
 - Try a more sophisitcated rendering example

@@ -9,3 +9,7 @@ Image {
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 }
+
+.bigFont {
+  font-size: 50pt
+}
