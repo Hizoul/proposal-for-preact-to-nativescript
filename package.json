@@ -1,8 +1,8 @@
 {
   "description": "NativeScript Application",
-  "license": "SEE LICENSE IN <your-license-filename>",
-  "readme": "NativeScript Application",
-  "repository": "<fill-your-repository-here>",
+  "license": "MIT",
+  "readme": "Render NativeScript Applications with Preact",
+  "repository": "",
   "nativescript": {
     "id": "org.nativescript.HelloWorld",
     "tns-android": {
