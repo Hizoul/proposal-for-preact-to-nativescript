@@ -10,7 +10,7 @@ let extensions = {
     this.set(name, value)
   },
   removeAttribute(name) {
-    console.log("about to reve attggribute " + name)
+    console.log("about to remove attggibute " + name)
     this.set(name, null);
   },
   appendChild(child) {
@@ -41,19 +41,18 @@ let extensions = {
     }
   },
   removeChild(child) {
-    console.log("removing",)
+    console.log("removing")
     if ('text' in this && child.splitText!=null) {
-      console.log("only making text away")
       this.text = '';
-    } else if (this.content !== null) {
+    } else if (this.content !== null) { // if is page
       this.content = null
       this.childNodes = []
     } else {
       const childIndex = this.childNodes.indexOf(child)
-      console.log("removing at index " + childIndex)
       if (childIndex !== -1) {
+        console.log("prev length" + this.childNodes.length)
         this.childNodes = this.childNodes.splice(childIndex, 1)
-        console.log("childre are now " + this.childNodes.lengthjh)
+        console.log("newchildnodes length" + this.childNodes.length)
       }
       this.removeChild(child);
     }

@@ -7,6 +7,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 - Adjusting UI to state changes
 
 ## What needs to be done
+- Figure out why always full rebuild is done instead of using setAttribute
 - Styling
 - Try out and add wrappers for all NativeScript components
 - Routing
