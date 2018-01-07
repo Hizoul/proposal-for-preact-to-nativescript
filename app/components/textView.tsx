@@ -1,19 +1,10 @@
 import { h, Component } from "preact"
 
 
-class TextViewContainer extends Component<any, any> {
-  componentWillMount() {
-    console.log(`Mounting component + timeout`)
-    setTimeout(() => {
-      console.log(`Updated Text State`)
-      this.setState({text: "Updated Text"})
-    }, 3000)
-  }
+class TextView extends Component<any, any> {
   render() {
-    const text = this.state !== null && this.state !== undefined ? this.state.text : `defaultText`
-    const newProps = {text}
-    return h('textview', newProps, [text])
+    return h('textview', this.props, this.props.children)
   }
 }
 
-export default TextViewContainer
+export default TextView
