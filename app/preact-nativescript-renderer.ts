@@ -112,12 +112,6 @@ const document = {
     });
     el.splitText = () => null;
     return el;
-  },
-  body: {
-    childNodes: [],
-    appendChild: (newChild) => {
-      global.document.body.childNodes.push(newChild)
-    }
   }
 };
 
@@ -129,8 +123,14 @@ TextElement = require("tns-core-modules/ui/text-view").TextView
 let types = {};
 // preact-render-to-nativescript
 const render = (Component: VNode) => {
-  Preact.render(Component, document.body)
-  return document.body.childNodes[0]
+  const renderBody = {
+    childNodes: [],
+    appendChild: (newChild) => {
+      renderBody.childNodes.push(newChild)
+    }
+  }
+  Preact.render(Component, renderBody)
+  return renderBody.childNodes[0]
 }
 
 export default render
