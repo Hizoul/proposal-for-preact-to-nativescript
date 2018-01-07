@@ -11,6 +11,7 @@ Using [this implementation](https://github.com/staydecent/nativescript-preact/is
 - Try out and add wrappers for all NativeScript components
 - Routing
 - Try a more sophisitcated rendering example
+- Documentation
 
 ## Usage
 Assuming nativescript & typescript is setup
