@@ -1,4 +1,4 @@
-import { h, Component } from "preact"
+import { h, Component } from "../preact"
 
 
 class TextView extends Component<any, any> {

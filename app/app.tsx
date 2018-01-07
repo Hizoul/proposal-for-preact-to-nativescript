@@ -1,12 +1,13 @@
-import * as Preact from "preact"
-import { h } from "preact"
-import Page from "./comp"
-import * as applicationModule from "application"
+import * as Preact from "./preact"
+const h = Preact.h
+import PageComponent from "./comp"
+import * as application from "application"
 import render from "./preact-nativescript-renderer"
 
+const app: any = application
 
-applicationModule.start({
+app.start({
   create: function () {
-    return render(<Page />)
+    return render(<PageComponent />)
   }
 })

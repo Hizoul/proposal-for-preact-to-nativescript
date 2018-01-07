@@ -10,4 +10,4 @@ tmp/
 typings/
 .idea
 app/**/*.js
-!app/preact.js
+!app/preactjs.js

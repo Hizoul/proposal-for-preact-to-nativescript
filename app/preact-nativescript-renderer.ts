@@ -6,7 +6,7 @@ let TextElement: any
 // stuff to mix into NS's view prototypes
 let extensions = {
   setAttribute(name, value) {
-    console.log("about to set attribute " + name + " to  " + value + " calling " + typeof(this.set))
+    console.log("about to set attribute " + name + " to  " + value)
     this.set(name, value)
   },
   removeAttribute(name) {
@@ -32,7 +32,8 @@ let extensions = {
       if (c===ref) offset = index;
     });
     if (offset!=null) {
-      this._addView(child, offset);
+      this.childNodes.push(child)
+      this.addChild(child, offset);
     }
     else {
       this.addChild(child)
@@ -40,22 +41,28 @@ let extensions = {
     }
   },
   removeChild(child) {
-    console.log("removing")
+    console.log("removing",)
     if ('text' in this && child.splitText!=null) {
+      console.log("only making text away")
       this.text = '';
-    }
-    else {
+    } else if (this.content !== null) {
+      this.content = null
+      this.childNodes = []
+    } else {
       const childIndex = this.childNodes.indexOf(child)
+      console.log("removing at index " + childIndex)
       if (childIndex !== -1) {
-        this.childNodes.remove(childIndex, 1)
+        this.childNodes = this.childNodes.splice(childIndex, 1)
+        console.log("childre are now " + this.childNodes.lengthjh)
       }
-      this._removeView(child);
+      this.removeChild(child);
     }
   }
 };
 
-const customDocument = {
+const document = {
   createElement(type) {
+    console.log("got type", JSON.stringify(type))
     // imports and augments NS view classes on first use
     type = type.toLowerCase();
     let el
@@ -82,7 +89,7 @@ const customDocument = {
       types[type] = el;
     }
     el = new el()
-    el.__preactattr_ = {}
+    el.attributes = {}
     el.childNodes = []
     el.set = (name, value) => {
       console.log("callinggset with " + name + " and " + value)
@@ -119,11 +126,11 @@ global.document = document
 declare const require: (name: string) => any
 const Preact = require('./preact')
 var h = Preact.h
-Text = require("tns-core-modules/ui/text-view").Text
+TextElement = require("tns-core-modules/ui/text-view").TextView
 let types = {};
 // preact-render-to-nativescript
 const render = (Component: VNode) => {
-  Preact.render(h(Component), document.body)
+  Preact.render(Component, document.body)
   return document.body.childNodes[0]
 }
 
