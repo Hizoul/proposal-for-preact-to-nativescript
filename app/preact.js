@@ -75,10 +75,10 @@
           if (value) node.innerHTML = value.__html || '';
       } else if ('o' == name[0] && 'n' == name[1]) {
           var useCapture = name !== (name = name.replace(/Capture$/, ''));
-          name = name.toLowerCase().substring(2);
+          name = name.substring(2, 3).toLowerCase() + name.substring(3);
           if (value) {
-              if (!old) node.addEventListener(name, eventProxy, useCapture);
-          } else node.removeEventListener(name, eventProxy, useCapture);
+              if (!old) node.addEventListener(name, eventProxy, node);
+          } else node.removeEventListener(name, eventProxy, node);
           (node.__l || (node.__l = {}))[name] = value;
       } else if ('list' !== name && 'type' !== name && !isSvg && name in node) {
           setProperty(node, name, null == value ? '' : value);
@@ -94,7 +94,8 @@
       } catch (e) {}
   }
   function eventProxy(e) {
-      return this.__l[e.type](options.event && options.event(e) || e);
+      const type = e.type ? e.type : e.eventName
+      return this.__l[type](options.event && options.event(e) || e);
   }
   function flushMounts() {
       var c;
