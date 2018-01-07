@@ -1,214 +1,130 @@
-import { VNode } from "preact"
-import { Page } from "tns-core-modules/ui/page"
-import { Label } from "tns-core-modules/ui/label"
-import { TextView } from "tns-core-modules/ui/text-view"
-import { StackLayout } from "tns-core-modules/ui/layouts/stack-layout"
-import { Observable, fromObjectRecursive } from "tns-core-modules/data/observable"
+import { VNode } from 'preact';
+declare const global: any
 
-const isNil = (a: any) => a === undefined || a === null
-const isString = (a: any) => typeof(a) === "string"
-const alreadyRendered = (component: JSX.Element) => isString(component.nodeName)
-const initComponent = (component: JSX.Element) => typeof(component.nodeName) === "function" ? 
-new component.nodeName(prepComponentProps(component)) : null
+let TextElement: any
 
-const NS_COMP_REF = "nativescriptComponent"
-const NS_OBSV_REF = "nativescriptObservable"
-
-const nodeNames = {
-  page: "page"
-}
-
-const shallowClone = (obj: any) => {
-  const newObj = {}
-  for (const i in obj) {
-    newObj[i] = obj[i]
-  }
-  return newObj
-}
-
-const copyToObservable = (obsv: Observable, obj: any) => {
-  if (isNil(obj)) {
-    return
-  }
-  // TODO: deepcopy
-  for (const i in obj) {
-    obsv.set(i, obj[i])
-  }
-}
-
-const prepComponentProps = (component: JSX.Element) => {
-  const attribs: any = shallowClone(component.attributes)
-  attribs.children = component.children
-  return attribs
-}
-
-const stackLayoutMaker = (component: JSX.Element) => {
-  console.log(`ABOUT TO RENDER ${getNodeName(component)}`)
-  const stackLayoutInstance = new StackLayout()
-  component[NS_COMP_REF] = stackLayoutInstance
-  for (const child of component.children) {
-    stackLayoutInstance.addChild(walkTree(child, component))
-  }
-  return stackLayoutInstance
-}
-
-const textViewMaker = (component: JSX.Element) => {
-  const hasNsComponent = !isNil(component[NS_COMP_REF])
-  console.log(`Has NS Comp ${hasNsComponent}`)
-  if (hasNsComponent) {
-    console.log(`Found previous ns component`, component[NS_COMP_REF])
-    copyToObservable(component[NS_OBSV_REF], component.state)
-    console.log(`Applied state update ${JSON.stringify(component.state)}`)
-  } else {
-    const textView = new TextView()
-    const text = isString(component.attributes.text) ? component.attributes.text : "notextsetyet"
-    textView.text = text
-    component[NS_COMP_REF] = textView
-    const untypedComp: any = component
-    if (untypedComp.parent) {
-      addChild(untypedComp.parent, component)
+// stuff to mix into NS's view prototypes
+let extensions = {
+  setAttribute(name, value) {
+    console.log("about to set attribute " + name + " to  " + value + " calling " + typeof(this.set))
+    this.set(name, value)
+  },
+  removeAttribute(name) {
+    console.log("about to reve attggribute " + name)
+    this.set(name, null);
+  },
+  appendChild(child) {
+    console.log("appending child")
+    if ('text' in this && child.splitText!=null) {
+      this.text = child.nodeValue;
     }
-    console.log(`COMPONENTS PARENTS ARE ${component.parent}`)
-    // console.log(`RENDERED TEXTVIEW IS ${JSON.stringify(component)}`)
-    // console.log(`ABOUT TO CREATE TEXTVIEW ${JSON.stringify(component)}`)
-    return textView
-  }
-}
-
-const mapStringToNativescriptElement = (name: string, component: VNode) => {
-  console.log(`TRYING TO MAP ${name}`)
-  if (!isString(name)) {
-    return
-  }
-  switch (name.toLowerCase()) {
-    case "stacklayout": {
-      return stackLayoutMaker(component)
+    else {
+      this.childNodes.push(child)
+      this.addChild(child);
     }
-    case "textview": {
-      return textViewMaker(component)
+  },
+  insertBefore(child, ref) {
+    console.log("insertinbefore")
+    // find the index at which to insert the child based on ref:
+    let offset, index = -1;
+    this.eachChild( c => {
+      index++;
+      if (c===ref) offset = index;
+    });
+    if (offset!=null) {
+      this._addView(child, offset);
     }
-    default: {
-      return walkTree(component.childRefs[0], component)
+    else {
+      this.addChild(child)
+      this.childNodes.push(child)
     }
-  }
-}
-
-const getNodeName = ({nodeName}: JSX.Element) => {
-  return typeof(nodeName) === "function" ? nodeName.name : nodeName
-}
-
-const lookForPage = (component: JSX.Element) => {
-  if (isNil(component) || typeof(component.nodeName) !== "function") {
-    throw new Error("Expecting a Renderable Component as Root")
-  }
-  const instance = new component.nodeName(prepComponentProps(component))
-  const rendered = instance.render()
-  if (getNodeName(rendered).toLocaleLowerCase() !== nodeNames.page) {
-    throw new Error("Expecting Page Component at root!")
-  }
-  return rendered
-}
-
-const convertComponent = (component: JSX.Element): any => {
-  const label = new Label()
-  label.text = "TS Page"
-  console.log(`Trying to render ${getNodeName(component)} ${JSON.stringify(component.children)}`)
-
-  return mapStringToNativescriptElement(getNodeName(component), component)
-}
-
-function extend(obj, props) {
-	for (let i in props) obj[i] = props[i];
-	return obj;
-}
-
-const addChild = (parent, child) => {
-  if (parent.childRefs === undefined || parent.childRefs === null) { // TODO: check isArray
-    parent.childRefs = []
-  }
-  parent.childRefs.push(child)
-}
-
-const walkTree = (vnode: VNode | string | undefined, parent?) => {
-  console.log(`Walking tree with ${getNodeName(vnode)}`)
-  if (vnode === undefined || vnode === null) {
-    console.error(`Received undefined in walkTree`)
-    return
-  }
-
-  if (typeof(vnode) === "string") {
-    console.log(`Received String ${vnode}`)
-    return
-  }
-
-  const { attributes } = vnode;
-  let { nodeName, children } = vnode;
-
-  // Component
-  if (typeof nodeName === "function") {
-      let rendered;
-      let c: any
-      const props = prepComponentProps(vnode);
-
-      if (
-        !nodeName.prototype ||
-        typeof nodeName.prototype.render !== "function"
-      ) {
-        rendered = (nodeName as any)(props, undefined);
-        rendered.parent = parent
-      } else {
-        // Class components
-        c = new nodeName(props, undefined);
-        if (!c.hookedIntoState) {
-          // getting render updates is hardcoded into preact components
-          // thats why we have to hook ourselves into Component.setState
-          console.log(`MODIFYING PROTOTYPE OF ${getNodeName(vnode)}`)
-          c.hookedIntoState = true
-          c.nodeName = getNodeName(vnode)
-          if (parent) {
-            c.parent = parent
-            addChild(parent, c)
-          }
-          let newStateFunc = (thisRef, newState) => {
-            if (isNil(thisRef.state)) {
-              thisRef.state = {}
-            }
-            let s = thisRef.state
-            extend(s, typeof(newState) === "function" ? newState(s, thisRef.state) : newState)
-            console.log(`new vnode state is ${thisRef.parent} ${thisRef.hookedIntoState} ${thisRef.key} ${JSON.stringify(thisRef.state)} ${thisRef[NS_COMP_REF]} ${thisRef.children}`)
-            thisRef.parent[NS_COMP_REF].removeChild(thisRef.childRefs[0][NS_COMP_REF])
-            thisRef.parent[NS_COMP_REF].addChild(walkTree(thisRef.render(thisRef.props, thisRef.state), c))
-          }
-          c.setState = newStateFunc.bind(c, c)
-        }
-        console.log(`GOT MOUNT ${typeof(c.componentWillMount)}`)
-        if (c.componentWillMount !== undefined) {
-          console.log(`Calling componentWillMount`)
-          c.componentWillMount();
-        }
-        rendered = c.render(props, undefined);
-        console.log(`rendered to ${getNodeName(rendered)}`)
+  },
+  removeChild(child) {
+    console.log("removing")
+    if ('text' in this && child.splitText!=null) {
+      this.text = '';
+    }
+    else {
+      const childIndex = this.childNodes.indexOf(child)
+      if (childIndex !== -1) {
+        this.childNodes.remove(childIndex, 1)
       }
-      return walkTree(rendered, c)
+      this._removeView(child);
+    }
   }
-  const untypedNode: any = vnode
-  if (!isNil(parent) && isNil(untypedNode.parent)) {
-    untypedNode.parent = parent
+};
+
+const customDocument = {
+  createElement(type) {
+    // imports and augments NS view classes on first use
+    type = type.toLowerCase();
+    let el
+    if (type in types) {
+      el = types[type];
+    } else {
+      let elementRequirePath = 'tns-core-modules/ui/'
+      if (type === "stacklayout") {
+        elementRequirePath = "ui/layouts/stack-layout"
+      } else if(type === "textfield") {
+        elementRequirePath += "text-field"
+      } else if(type === "textview") {
+        elementRequirePath += "text-view"
+      } else {
+        elementRequirePath += type
+      }
+      let m = require(elementRequirePath);
+      // find matching named export:
+      for (let i in m) if (i.toLowerCase()===type) {
+        el = m[i];
+        break;
+      }
+      Object.assign(el.prototype, extensions);
+      types[type] = el;
+    }
+    el = new el()
+    el.__preactattr_ = {}
+    el.childNodes = []
+    el.set = (name, value) => {
+      console.log("callinggset with " + name + " and " + value)
+      el[name] = value
+    }
+    if (type === "page") {
+      el.addChild = (addedChild) => {
+        el.content = addedChild
+        el.childNodes.push(addedChild)
+      }
+    }
+    return el
+  },
+  createTextNode(text) {
+    console.log("creating textnode" + text)
+    let el = new TextElement();
+    el.text = text;
+    Object.defineProperty(el, 'nodeValue', {
+      set(v) { console.log("abouttoset", v); this.text = v },
+      get() { return this.text }
+    });
+    el.splitText = () => null;
+    return el;
+  },
+  body: {
+    childNodes: [],
+    appendChild: (newChild) => {
+      global.document.body.childNodes.push(newChild)
+    }
   }
-  return mapStringToNativescriptElement(getNodeName(vnode), vnode)
+};
 
+global.document = document
+declare const require: (name: string) => any
+const Preact = require('./preact')
+var h = Preact.h
+Text = require("tns-core-modules/ui/text-view").Text
+let types = {};
+// preact-render-to-nativescript
+const render = (Component: VNode) => {
+  Preact.render(h(Component), document.body)
+  return document.body.childNodes[0]
 }
 
-const renderPage = (component: JSX.Element) => {
-  const rootPage = lookForPage(component)
-  const page = new Page()
-  page.content = walkTree(rootPage.children[0])
-  return page
-}
-
-
-const renderToNativeScript = (component: JSX.Element) => {
-  return renderPage(component)
-}
-
-export default renderToNativeScript
+export default render
