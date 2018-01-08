@@ -57,7 +57,7 @@ let extensions = {
     }
   },
   removeChild(child) {
-    console.log("removing")
+    console.log(`removing ${child.nodeName} from ${this.nodeName}`)
     if ('text' in this && child.splitText!=null) {
       this.text = '';
     } else if (this.content !== null) { // if is page
@@ -72,9 +72,13 @@ let extensions = {
       }
       this.removeChild(child);
     }
+    child.parentNode = null
   },
   remove() {
-    if (this.parentNode) this.parentNode.removeChild(this);
+    if (this.parentNode) {
+      this.parentNode.removeChild(this)
+      this.parentNode = null
+    }
   }
 };
 
