@@ -3,6 +3,9 @@
   "license": "MIT",
   "readme": "Render NativeScript Applications with Preact",
   "repository": "",
+  "scripts": {
+    "fixCache": "tns platform remove android && tns platform add android"
+  },
   "nativescript": {
     "id": "org.nativescript.HelloWorld",
     "tns-android": {
