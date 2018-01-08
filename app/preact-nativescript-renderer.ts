@@ -3,6 +3,13 @@ declare const global: any
 
 let TextElement: any
 
+function findWhere(arr, fn, returnIndex, byValueOnly?) {
+	let i = arr.length;
+	while (i--) if (typeof fn==='function' && !byValueOnly ? fn(arr[i]) : arr[i]===fn) break;
+	return returnIndex ? i : arr[i];
+}
+
+
 // stuff to mix into NS's view prototypes
 let extensions = {
   setAttribute(name, value) {
@@ -22,9 +29,11 @@ let extensions = {
       this.childNodes.push(child)
       this.addChild(child);
     }
+    child.parentNode = this
   },
   insertBefore(child, ref) {
     console.log("insertinbefore")
+    child.remove()
     // find the index at which to insert the child based on ref:
     let offset, index = -1;
     this.eachChild( c => {
@@ -32,12 +41,19 @@ let extensions = {
       if (c===ref) offset = index;
     });
     if (offset!=null) {
-      this.childNodes.push(child)
+      this.childNodes.splice(offset, 0, child)
       this.addChild(child, offset);
     }
     else {
       this.addChild(child)
       this.childNodes.push(child)
+    }
+    child.parentNode = this
+  },
+  replaceChild(child, ref) {
+    if (ref.parentNode===this) {
+      this.insertBefore(child, ref);
+      ref.remove();
     }
   },
   removeChild(child) {
@@ -56,6 +72,9 @@ let extensions = {
       }
       this.removeChild(child);
     }
+  },
+  remove() {
+    if (this.parentNode) this.parentNode.removeChild(this);
   }
 };
 
@@ -85,10 +104,30 @@ const document = {
         break;
       }
       Object.assign(el.prototype, extensions);
+      Object.defineProperty(el, 'firstChild', {
+        get() { return this.childNodes[0] }
+      })
+      Object.defineProperty(el, 'lastChild', {
+        get() { return this.childNodes[this.childNodes.length-1] }
+      })
+      Object.defineProperty(el, 'nextSibling', {
+        get() {
+          let p = this.parentNode
+          if (p) return p.childNodes[findWhere(p.childNodes, this, true) + 1]
+        }
+      })
+      Object.defineProperty(el, 'previousSibling', {
+        get() {
+          let p = this.parentNode
+          if (p) return p.childNodes[findWhere(p.childNodes, this, true) - 1]
+        }
+      })
       types[type] = el;
     }
     el = new el()
-    el.attributes = {}
+    el.nodeType = type
+    el.nodeName = type
+    el.attributes = []
     el.childNodes = []
     el.set = (name, value) => {
       console.log("callinggset with " + name + " and " + value)
@@ -107,7 +146,7 @@ const document = {
     let el = new TextElement();
     el.text = text;
     Object.defineProperty(el, 'nodeValue', {
-      set(v) { console.log("abouttoset", v); this.text = v },
+      set(v) { this.text = v },
       get() { return this.text }
     });
     el.splitText = () => null;
