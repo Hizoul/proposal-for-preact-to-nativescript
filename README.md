@@ -6,11 +6,11 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 - Basic handling of events
 - Adjusting UI to state changes
 - Styling by using className or id as identifier
+- Basic Navigation by [navigating to element](https://docs.nativescript.org/core-concepts/navigation#example-3--how-to-navigate-to-a-page-dynamically-created-via-code)
 
 ## What needs to be done
 - Figure out why always full rebuild is done instead of using setAttribute
 - Try out and add wrappers for all NativeScript components
-- Routing
 - Try a more sophisitcated rendering example
 - Documentation
 - See if preact changes can and may be merged into the actual lib so no custom one needs to be used

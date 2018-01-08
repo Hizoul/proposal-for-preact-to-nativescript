@@ -1,7 +1,7 @@
 import { h, Component } from "../preact"
 
 
-class StackLayout extends Component<any, any> {
+class StackLayout extends Component {
   render() {
     return h('stacklayout', this.props, this.props.children)
   }

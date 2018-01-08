@@ -1,5 +1,4 @@
 declare const require: any
-
 const importedPreact: any = require("./preactjs")
 
 export default importedPreact
@@ -10,7 +9,7 @@ interface ComponentClass {
   setState: Function
 }
 
-const Component: any = importedPreact.Component
+const Component: preact.ComponentConstructor<any, any> = importedPreact.Component
 
 const render = importedPreact.render
 
