@@ -3,7 +3,7 @@ import { h, Component } from "../preact"
 
 class StackLayout extends Component {
   render() {
-    return h('stacklayout', this.props, this.props.children)
+    return h('stackLayout', this.props, this.props.children)
   }
 }
 

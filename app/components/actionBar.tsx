@@ -2,7 +2,7 @@ import { h, Component } from "../preact"
 
 class ActionBar extends Component {
   render() {
-    return h('actionbar', this.props, this.props.children)
+    return h('actionBar', this.props, this.props.children)
   }
 }
 

@@ -12,6 +12,7 @@ function findWhere(arr, fn, returnIndex, byValueOnly?) {
 let currentPage: any
 
 // stuff to mix into NS's view prototypes
+// mostly copied from Node in undom (https://github.com/developit/undom/blob/master/src/undom.js)
 let extensions = {
   setAttribute(name, value) {
     console.log("about to set attribute " + name + " to  " + value)
@@ -96,30 +97,31 @@ let extensions = {
     }
   }
 };
+const isUpperCase = (inspect: string) => inspect === inspect.toUpperCase()
+
+const convertType = (type: string) => {
+  let newType = ""
+  for (let i = 0; i < type.length; i++) {
+    const char = type.charAt(i)
+    newType += isUpperCase(char) ? `-${char.toLowerCase()}` : char
+  }
+  return newType
+}
 
 const document = {
   createElement(type) {
-    console.log("got type", JSON.stringify(type))
     // imports and augments NS view classes on first use
-    type = type.toLowerCase();
+    const originalType = type
+    type = type.toLowerCase()
     let el
     if (type in types) {
       el = types[type];
     } else {
       let elementRequirePath = 'tns-core-modules/ui/'
-      if (type === "stacklayout") {
-        elementRequirePath = "ui/layouts/stack-layout"
-      } else if(type === "textfield") {
-        elementRequirePath += "text-field"
-      } else if(type === "textview") {
-        elementRequirePath += "text-view"
-      } else if(type === "actionbar") {
-        elementRequirePath += "action-bar"
-      } else if(type === "activityindicator") {
-        elementRequirePath += "activity-indicator"
-      } else {
-        elementRequirePath += type
+      if (type.indexOf("layout") !== -1) {
+        elementRequirePath += "layouts/"
       }
+      elementRequirePath += convertType(originalType)
       let m = require(elementRequirePath);
       // find matching named export:
       for (let i in m) if (i.toLowerCase()===type) {
