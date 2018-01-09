@@ -28,21 +28,18 @@ class PageSwitch extends Component {
       <Page>
         <StackLayout>
           <Label
-            text={`Switch #1`}
+            text={`Switch #1 value is ${this.getVal("s1")}`}
           />
           <Switch
             checked={this.getVal("s1")}
             onCheckedChange={this.setS1}
           />
           <Label
-            text={"Switch #2"}
+            text={`Switch #2 value is ${this.getVal("s2")}`}
           />
           <Switch
             checked={this.getVal("s2")}
             onCheckedChange={this.setS2}
-          />
-          <Label
-            text={"Currently missing onchange"}
           />
           <Button text="Back" onTap={goBack} />
         </StackLayout>
