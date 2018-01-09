@@ -16,7 +16,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
   - (requires some more work documentation on nativescript side is sparse and addChild method is missing for component) Border
   - (tested and in demo app) Label
   - (tested and in demo app) SearchBar
-  - Switch
+  - (tested and in demo app) Switch
   - Slider
   - Progress
   - (tested and in demo app) ActivityIndicator

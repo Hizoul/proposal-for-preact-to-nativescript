@@ -3,6 +3,7 @@ import Page from "../../components/page"
 import PageActionBar from "./actionBar"
 import PageBorder from "./border"
 import PageSearchBar from "./searchBar"
+import PageSwitch from "./switch"
 import PageActivityIndicator from "./activityIndicator"
 import StackLayout from '../../components/stackLayout'
 import TextView from "../../components/textView"
@@ -19,6 +20,7 @@ class Comp extends Component {
           <Label className="mainHeading" text="Working" />
           <Button text="ActivityIndicator" onTap={navigateTo.bind(null, <PageActivityIndicator />)} />
           <Button text="SearchBar" onTap={navigateTo.bind(null, <PageSearchBar />)} />
+          <Button text="Switch" onTap={navigateTo.bind(null, <PageSwitch />)} />
           <Label className="mainHeading" text="Not Working / TBD" />
           <Button text="Border" onTap={navigateTo.bind(null, <PageBorder />)} />
           <Button text="ActionBar" onTap={navigateTo.bind(null, <PageActionBar />)} />

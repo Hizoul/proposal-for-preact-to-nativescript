@@ -5,30 +5,18 @@ import StackLayout from '../../components/stackLayout'
 import Label from "../../components/label"
 import SearchBar from "../../components/searchBar"
 import TextField from "../../components/textField"
-import ValueHolder from "../components/valHolder"
+import { setValueTrigger, setValueViaEvent } from "../components/valueHelpers"
 import { goBack } from "../../util/navigateTo"
 
 class PageSearchBar extends Component {
-  setValue = (ev) => {
-    this.setState({value: ev.value})
-  }
-  getValue = () => {
-    if (this && this.state) {
-      return this.state.value
-    }
-    return
-  }
-  onClear = () => {
-    this.setState({cleared: true})
-    setTimeout(() => {
-      this.setState({cleared: false})
-    }, 8000)
-  }
-  onSubmit = () => {
-    this.setState({submitted: true})
-    setTimeout(() => {
-      this.setState({submitted: false})
-    }, 8000)
+  setValue: Function
+  onClear: Function
+  onSubmit: Function
+  constructor(props) {
+    super(props)
+    this.setValue = setValueViaEvent(this)
+    this.onClear = setValueTrigger(this, "cleared")
+    this.onSubmit = setValueTrigger(this, "submitted")
   }
   render() {
     return (
@@ -36,7 +24,7 @@ class PageSearchBar extends Component {
         <StackLayout>
           <SearchBar
             title="MyTitle"
-            text={this.getValue()}
+            text={this.state.value}
             hint="Search"
             onClear={this.onClear}
             onTextChange={this.setValue}
