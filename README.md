@@ -46,7 +46,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 - Split up Library into pure renderer and convienence JSX-Helpers for minimal code per wanted lib
 - Demo Application
 
-## Usage
+## Running the Demo
 Assuming nativescript & typescript is setup
 
 `npm install && nativescript run <platform>`
