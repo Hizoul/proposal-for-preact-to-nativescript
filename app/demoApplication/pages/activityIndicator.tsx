@@ -3,6 +3,7 @@ import Page from "../../components/page"
 import Button from "../../components/button"
 import StackLayout from '../../components/stackLayout'
 import TextView from "../../components/textView"
+import Label from "../../components/label"
 import TextField from "../../components/textField"
 import { goBack } from "../../util/navigateTo"
 import ActivityIndicator from "../../components/activityIndicator"
@@ -12,9 +13,9 @@ class PageActivityIndicator extends Component {
     return (
       <Page>
         <StackLayout>
-          <TextView text="Busy" />
+          <Label text="Busy Label" />
           <ActivityIndicator busy={true} />
-          <TextView text="Not Busy" />
+          <TextView text="Not Busy TextView" />
           <ActivityIndicator busy={false} />
           <Button text="Back" onTap={goBack} />
         </StackLayout>

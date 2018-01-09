@@ -13,7 +13,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
   - (basics tested and got wrappers) Page, Button, TextField, TextView
   - (requires some work because it uses a special ref syntax for nativescript) ActionBar
   - (requires some more work documentation on nativescript side is sparse and addChild method is missing for component) Border
-  - Label
+  - (tested and in demo app) Label
   - SearchBar
   - Switch
   - Slider
