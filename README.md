@@ -3,7 +3,8 @@
 Building upon [this document implementation](https://github.com/staydecent/nativescript-preact/issues/4#issuecomment-323900569) [by developit](https://github.com/developit) preact-to-nativescript simulates a web document similar to [undom](https://github.com/developit/undom) that enables preact to render to NativeScript
 
 ## Whats tested
-- Basic handling of events (onTap, onTextChange)
+- Currently all this is was only tested on Android!
+- Basic handling of events (onTap, onTextChange, onSubmit, onClear)
 - Adjusting UI to state changes
 - Styling by using className or id as identifier
 - Basic Navigation by [navigating to element](https://docs.nativescript.org/core-concepts/navigation#example-3--how-to-navigate-to-a-page-dynamically-created-via-code)
@@ -14,7 +15,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
   - (requires some work because it uses a special ref syntax for nativescript) ActionBar
   - (requires some more work documentation on nativescript side is sparse and addChild method is missing for component) Border
   - (tested and in demo app) Label
-  - SearchBar
+  - (tested and in demo app) SearchBar
   - Switch
   - Slider
   - Progress
@@ -39,7 +40,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 - Try a more sophisitcated rendering example
 - Documentation
 - See if preact changes may be merged into the actual lib so no custom one needs to be used
-- Clean up code (many ugly typescript hacks etc.)
+- Clean up code (many ugly typescript hacks, no proper docs and typings used etc.)
 - Probably a lot more hiccups that need fixing but aren't in scope yet
 - Write tests for the code
 - Split up Library into pure renderer and convienence JSX-Helpers for minimal code per wanted lib
