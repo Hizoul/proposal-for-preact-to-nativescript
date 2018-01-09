@@ -5,15 +5,17 @@ import StackLayout from '../../components/stackLayout'
 import TextView from "../../components/textView"
 import TextField from "../../components/textField"
 import { goBack } from "../../util/navigateTo"
-import ActionBar from "../../components/actionBar"
+import ActivityIndicator from "../../components/activityIndicator"
 
-class PageActionBar extends Component {
+class PageActivityIndicator extends Component {
   render() {
     return (
       <Page>
-        <ActionBar title="MyTitle" />
         <StackLayout>
-          <TextView text="not working yet" />
+          <TextView text="Busy" />
+          <ActivityIndicator busy={true} />
+          <TextView text="Not Busy" />
+          <ActivityIndicator busy={false} />
           <Button text="Back" onTap={goBack} />
         </StackLayout>
       </Page>
@@ -21,4 +23,4 @@ class PageActionBar extends Component {
   }
 }
 
-export default PageActionBar
+export default PageActivityIndicator

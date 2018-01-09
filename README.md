@@ -11,13 +11,14 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 ## What needs to be done
 - Try out and add wrappers for all NativeScript components
   - (basics tested and got wrappers) Page, Button, TextField, TextView
-  - ActionBar
+  - (requires some work because it uses a special ref syntax for nativescript) ActionBar
+  - Border
   - Label
   - SearchBar
   - Switch
   - Slider
   - Progress
-  - ActivityIndicator
+  - (tested and in demo app) ActivityIndicator
   - Image
   - ListView
   - HtmlView

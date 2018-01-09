@@ -113,8 +113,10 @@ const document = {
         elementRequirePath += "text-field"
       } else if(type === "textview") {
         elementRequirePath += "text-view"
-      }  else if(type === "actionbar") {
+      } else if(type === "actionbar") {
         elementRequirePath += "action-bar"
+      } else if(type === "activityindicator") {
+        elementRequirePath += "activity-indicator"
       } else {
         elementRequirePath += type
       }

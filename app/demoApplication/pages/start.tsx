@@ -1,18 +1,12 @@
 import { h, Component } from "../../preact"
 import Page from "../../components/page"
 import PageActionBar from "./actionBar"
+import PageActivityIndicator from "./activityIndicator"
 import StackLayout from '../../components/stackLayout'
 import TextView from "../../components/textView"
 import TextField from "../../components/textField"
 import navigateTo from '../../util/navigateTo'
-import Comp2 from '../../comp2'
 import Button from '../../components/button'
-
-
-const visitor = (ev) => {
-  console.log(`nav event`)
-  navigateTo(<Comp2 />)
-}
 
 class Comp extends Component {
   render() {
@@ -24,6 +18,7 @@ class Comp extends Component {
     return (
       <Page text={text}>
         <StackLayout>
+          <Button text="ActivityIndicator" onTap={navigateTo.bind(null, <PageActivityIndicator />)} />
           <Button text="ActionBar" onTap={navigateTo.bind(null, <PageActionBar />)} />
         </StackLayout>
       </Page>
