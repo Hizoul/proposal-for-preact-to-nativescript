@@ -15,6 +15,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 - See if preact changes may be merged into the actual lib so no custom one needs to be used
 - Clean up code (many ugly typescript hacks etc.)
 - Probably a lot more hiccups that need fixing but aren't in scope yet
+- Write tests for the code
 
 ## Usage
 Assuming nativescript & typescript is setup
