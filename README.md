@@ -9,6 +9,8 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 - Styling by using className or id as identifier
 - Basic Navigation by [navigating to element](https://docs.nativescript.org/core-concepts/navigation#example-3--how-to-navigate-to-a-page-dynamically-created-via-code)
 
+![Demo](https://github.com/Hizoul/proposal-for-preact-to-nativescript/raw/master/demo.gif)
+
 ## What needs to be done
 - Try out and add wrappers for all NativeScript components
   - (basics tested and got wrappers) Page, Button, TextField, TextView
@@ -37,6 +39,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
     - Stacklayout
     - WrapLayout
     - FlexboxLayout
+- Figure out why componentWillUnomount in progress example is not being called
 - Try a more sophisitcated rendering example
 - Documentation
 - See if preact changes may be merged into the actual lib so no custom one needs to be used
@@ -45,7 +48,6 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 - Write tests for the code
 - Split up Library into pure renderer and convienence JSX-Helpers for minimal code per wanted lib
 - Demo Application
-
 ## Running the Demo
 Assuming nativescript & typescript is setup
 
