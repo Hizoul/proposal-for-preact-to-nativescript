@@ -13,3 +13,8 @@ Image {
 .bigFont {
   font-size: 50pt
 }
+
+.mainHeading {
+  font-size: 36pt;
+  color: blue
+}

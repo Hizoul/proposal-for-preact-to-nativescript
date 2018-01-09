@@ -6,8 +6,6 @@ import render from "./preact-nativescript-renderer"
 
 const app: any = application
 
-app.setCssFileName("app.css")
-
 app.start({
   create: function () {
     return render(<DemoApp />)

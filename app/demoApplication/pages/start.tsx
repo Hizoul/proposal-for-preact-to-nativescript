@@ -8,18 +8,16 @@ import TextView from "../../components/textView"
 import TextField from "../../components/textField"
 import navigateTo from '../../util/navigateTo'
 import Button from '../../components/button'
+import Label from '../../components/label'
 
 class Comp extends Component {
   render() {
-    const setter = (ev) => {
-      console.log(`ev val ${ev.value} ${typeof(ev.value)}`)
-      this.setState({text: ev.value})
-    }
-    let text = this.state !== undefined && this.state !== null && this.state.text !== undefined  && this.state.text !== null ? this.state.text : "noStateYet"
     return (
-      <Page text={text}>
+      <Page cssFile="demoApplication/pages/start.css">
         <StackLayout>
+          <Label className="mainHeading" text="Working" />
           <Button text="ActivityIndicator" onTap={navigateTo.bind(null, <PageActivityIndicator />)} />
+          <Label className="mainHeading" text="Not Working / TBD" />
           <Button text="Border" onTap={navigateTo.bind(null, <PageBorder />)} />
           <Button text="ActionBar" onTap={navigateTo.bind(null, <PageActionBar />)} />
         </StackLayout>

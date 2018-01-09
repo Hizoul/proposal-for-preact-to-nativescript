@@ -190,6 +190,9 @@ const render = (Component: VNode) => {
   const renderBody = {
     childNodes: [],
     appendChild: (newChild) => {
+      if (newChild.cssFile) {
+        newChild.addCssFile(newChild.cssFile)
+      }
       renderBody.childNodes.push(newChild)
     }
   }
