@@ -1,6 +1,6 @@
 import * as Preact from "./preact"
 const h = Preact.h
-import PageComponent from "./comp"
+import DemoApp from "./demoApplication/pages/start"
 import * as application from "tns-core-modules/application"
 import render from "./preact-nativescript-renderer"
 
@@ -10,6 +10,6 @@ app.setCssFileName("app.css")
 
 app.start({
   create: function () {
-    return render(<PageComponent />)
+    return render(<DemoApp />)
   }
 })

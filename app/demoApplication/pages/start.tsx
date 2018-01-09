@@ -1,11 +1,12 @@
-import { h, Component } from "./preact"
-import Page from "./components/page"
-import StackLayout from './components/stackLayout'
-import TextView from "./components/textView"
-import TextField from "./components/textField"
-import navigateTo from './util/navigateTo';
-import Comp2 from './comp2';
-import Button from './components/button';
+import { h, Component } from "../../preact"
+import Page from "../../components/page"
+import PageActionBar from "./actionBar"
+import StackLayout from '../../components/stackLayout'
+import TextView from "../../components/textView"
+import TextField from "../../components/textField"
+import navigateTo from '../../util/navigateTo'
+import Comp2 from '../../comp2'
+import Button from '../../components/button'
 
 
 const visitor = (ev) => {
@@ -23,10 +24,7 @@ class Comp extends Component {
     return (
       <Page text={text}>
         <StackLayout>
-          <TextField text={text} onTextChange={setter} />
-          <TextView className="bigFont" text={text} />
-          <TextField text={text} onTextChange={setter} />
-          <Button onTap={visitor} />
+          <Button text="ActionBar" onTap={navigateTo.bind(null, <PageActionBar />)} />
         </StackLayout>
       </Page>
     )

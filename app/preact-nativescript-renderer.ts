@@ -9,6 +9,7 @@ function findWhere(arr, fn, returnIndex, byValueOnly?) {
 	return returnIndex ? i : arr[i];
 }
 
+let currentPage: any
 
 // stuff to mix into NS's view prototypes
 let extensions = {
@@ -112,6 +113,8 @@ const document = {
         elementRequirePath += "text-field"
       } else if(type === "textview") {
         elementRequirePath += "text-view"
+      }  else if(type === "actionbar") {
+        elementRequirePath += "action-bar"
       } else {
         elementRequirePath += type
       }
@@ -152,6 +155,7 @@ const document = {
       el[name] = value
     }
     if (type === "page") {
+      currentPage = el
       el.addChild = (addedChild) => {
         el.content = addedChild
       }
@@ -169,7 +173,7 @@ const document = {
     el.splitText = () => null;
     return el;
   }
-};
+}
 
 global.document = document
 declare const require: (name: string) => any

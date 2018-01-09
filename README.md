@@ -10,12 +10,39 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 
 ## What needs to be done
 - Try out and add wrappers for all NativeScript components
+  - (basics tested and got wrappers) Page, Button, TextField, TextView
+  - ActionBar
+  - Label
+  - SearchBar
+  - Switch
+  - Slider
+  - Progress
+  - ActivityIndicator
+  - Image
+  - ListView
+  - HtmlView
+  - WebView
+  - TabView
+  - SegmentedBar
+  - DatePicker
+  - TimePicker
+  - ListPicker
+  - Dialogs
+  - Layouts
+    - AbsoluteLayout
+    - DockLayout
+    - GridLayout
+    - Stacklayout
+    - WrapLayout
+    - FlexboxLayout
 - Try a more sophisitcated rendering example
 - Documentation
 - See if preact changes may be merged into the actual lib so no custom one needs to be used
 - Clean up code (many ugly typescript hacks etc.)
 - Probably a lot more hiccups that need fixing but aren't in scope yet
 - Write tests for the code
+- Split up Library into pure renderer and convienence JSX-Helpers for minimal code per wanted lib
+- Demo Application
 
 ## Usage
 Assuming nativescript & typescript is setup
