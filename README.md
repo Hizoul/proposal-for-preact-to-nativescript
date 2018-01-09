@@ -12,7 +12,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 - Try out and add wrappers for all NativeScript components
   - (basics tested and got wrappers) Page, Button, TextField, TextView
   - (requires some work because it uses a special ref syntax for nativescript) ActionBar
-  - Border
+  - (requires some more work documentation on nativescript side is sparse and addChild method is missing for component) Border
   - Label
   - SearchBar
   - Switch
