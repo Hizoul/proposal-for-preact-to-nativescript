@@ -17,7 +17,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
   - (tested and in demo app) Label
   - (tested and in demo app) SearchBar
   - (tested and in demo app) Switch
-  - Slider
+  - (tested and in demo app) Slider
   - (tested and in demo app) Progress
   - (tested and in demo app) ActivityIndicator
   - Image
