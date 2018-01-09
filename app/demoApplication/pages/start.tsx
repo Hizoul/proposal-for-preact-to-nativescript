@@ -6,6 +6,7 @@ import PageSearchBar from "./searchBar"
 import PageSwitch from "./switch"
 import PageProgress from "./progress"
 import PageSlider from "./slider"
+import PageImage from "./image"
 import PageActivityIndicator from "./activityIndicator"
 import StackLayout from '../../components/stackLayout'
 import TextView from "../../components/textView"
@@ -25,6 +26,7 @@ class Comp extends Component {
           <Button text="Switch" onTap={navigateTo.bind(null, <PageSwitch />)} />
           <Button text="Progress" onTap={navigateTo.bind(null, <PageProgress />)} />
           <Button text="Slider" onTap={navigateTo.bind(null, <PageSlider />)} />
+          <Button text="Image" onTap={navigateTo.bind(null, <PageImage />)} />
           <Label className="mainHeading" text="Not Working / TBD" />
           <Button text="Border" onTap={navigateTo.bind(null, <PageBorder />)} />
           <Button text="ActionBar" onTap={navigateTo.bind(null, <PageActionBar />)} />
