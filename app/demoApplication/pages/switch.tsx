@@ -8,10 +8,9 @@ import Switch from "../../components/switch"
 import { setValueTrigger, setValueViaEvent } from "../components/valueHelpers"
 import { goBack } from "../../util/navigateTo"
 
-class PageSearchBar extends Component {
+class PageSwitch extends Component {
   setS1: Function
   setS2: Function
-  setS3: Function
   constructor(props) {
     super(props)
     this.setS1 = setValueViaEvent(this, "s1")
@@ -52,4 +51,4 @@ class PageSearchBar extends Component {
   }
 }
 
-export default PageSearchBar
+export default PageSwitch
