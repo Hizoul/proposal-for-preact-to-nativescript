@@ -16,23 +16,36 @@ let extensions = {
     console.log("about to set attribute " + name + " to  " + value)
     this.set(name, value)
   },
+  getAttribute(name) {
+    return this[name]
+  },
   removeAttribute(name) {
     console.log("about to remove attggibute " + name)
     this.set(name, null);
   },
+  getAttributeNS(ignored, name, value) {
+    return this[name]
+  },
+  setAttributeNS(ignored, name, value) {
+    console.log("about to set attribute " + name + " to  " + value)
+    this.set(name, value)
+  },
+  removeAttributeNS(name) {
+    delete this[name]
+  },
   appendChild(child) {
-    console.log("appending child")
+    console.log(`appending ${child.nodeName} to ${this.nodeName}`)
     if ('text' in this && child.splitText!=null) {
       this.text = child.nodeValue;
     }
     else {
       this.childNodes.push(child)
+      child.parentNode = this
       this.addChild(child);
     }
-    child.parentNode = this
   },
   insertBefore(child, ref) {
-    console.log("insertinbefore")
+    console.log(`inserting ${child.nodeName} before ${ref.nodeName} in  ${this.nodeName}`)
     child.remove()
     // find the index at which to insert the child based on ref:
     let offset, index = -1;
@@ -41,16 +54,17 @@ let extensions = {
       if (c===ref) offset = index;
     });
     if (offset!=null) {
+      child.parentNode = this
       this.childNodes.splice(offset, 0, child)
       this.addChild(child, offset);
-    }
-    else {
-      this.addChild(child)
+    } else {
+      child.parentNode = this
       this.childNodes.push(child)
+      this.addChild(child)
     }
-    child.parentNode = this
   },
   replaceChild(child, ref) {
+    console.log(`replacing ${child.nodeName} with ${ref.nodeName}`)
     if (ref.parentNode===this) {
       this.insertBefore(child, ref);
       ref.remove();
@@ -129,8 +143,8 @@ const document = {
       types[type] = el;
     }
     el = new el()
-    el.nodeType = type
-    el.nodeName = type
+    el.nodeType = 1
+    el.nodeName = type.toUpperCase()
     el.attributes = []
     el.childNodes = []
     el.set = (name, value) => {
@@ -140,7 +154,6 @@ const document = {
     if (type === "page") {
       el.addChild = (addedChild) => {
         el.content = addedChild
-        el.childNodes.push(addedChild)
       }
     }
     return el

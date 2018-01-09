@@ -9,7 +9,6 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 - Basic Navigation by [navigating to element](https://docs.nativescript.org/core-concepts/navigation#example-3--how-to-navigate-to-a-page-dynamically-created-via-code)
 
 ## What needs to be done
-- Figure out why always full rebuild is done instead of using setAttribute
 - Try out and add wrappers for all NativeScript components
 - Try a more sophisitcated rendering example
 - Documentation
