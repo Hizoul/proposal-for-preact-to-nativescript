@@ -8,6 +8,7 @@ import PageProgress from "./progress"
 import PageSlider from "./slider"
 import PageImage from "./image"
 import PageHtml from "./htmlView"
+import PageSegmentedBar from "./segmentedBar"
 import PageActivityIndicator from "./activityIndicator"
 import StackLayout from '../../components/stackLayout'
 import TextView from "../../components/textView"
@@ -29,6 +30,7 @@ class Comp extends Component {
           <Button text="Slider" onTap={navigateTo.bind(null, <PageSlider />)} />
           <Button text="Image" onTap={navigateTo.bind(null, <PageImage />)} />
           <Button text="HtmlView & WebView" onTap={navigateTo.bind(null, <PageHtml />)} />
+          <Button text="SegmentedBar" onTap={navigateTo.bind(null, <PageSegmentedBar />)} />
           <Label className="mainHeading" text="Not Working / TBD" />
           <Button text="Border" onTap={navigateTo.bind(null, <PageBorder />)} />
           <Button text="ActionBar" onTap={navigateTo.bind(null, <PageActionBar />)} />

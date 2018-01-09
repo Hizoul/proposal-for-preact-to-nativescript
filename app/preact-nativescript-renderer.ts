@@ -100,6 +100,9 @@ let extensions = {
 const isUpperCase = (inspect: string) => inspect === inspect.toUpperCase()
 
 const convertType = (type: string) => {
+  if (type.toLowerCase() === "segmentedbaritem") {
+    return "segmented-bar"
+  }
   let newType = ""
   for (let i = 0; i < type.length; i++) {
     const char = type.charAt(i)
@@ -162,6 +165,15 @@ const document = {
       currentPage = el
       el.addChild = (addedChild) => {
         el.content = addedChild
+      }
+    }
+    if (type === "segmentedbar") {
+      let newItems = []
+      // todo: handle removal
+      el.addChild = (addedChild) => {
+        newItems = newItems.slice(0)
+        newItems.push(addedChild)
+        el.items = newItems
       }
     }
     return el
