@@ -10,6 +10,7 @@ import PageImage from "./image"
 import PageHtml from "./htmlView"
 import PageSegmentedBar from "./segmentedBar"
 import PageTabView from "./tabView"
+import PageListView from "./listView"
 import PageActivityIndicator from "./activityIndicator"
 import FlexboxLayout from '../../components/flexboxLayout'
 import TextView from "../../components/textView"
@@ -19,7 +20,7 @@ import Button from '../../components/button'
 import Label from '../../components/label'
 import ScrollView from '../../components/scrollView'
 import StackLayout from "../../components/stackLayout"
-import AbsoluteLayout from '../../components/absoluteLayout';
+import AbsoluteLayout from '../../components/absoluteLayout'
 
 class Comp extends Component {
   render() {
@@ -38,6 +39,7 @@ class Comp extends Component {
             <Button text="HtmlView & WebView" onTap={navigateTo.bind(null, <PageHtml />)} />
             <Button text="SegmentedBar" onTap={navigateTo.bind(null, <PageSegmentedBar />)} />
             <Button text="TabView" onTap={navigateTo.bind(null, <PageTabView />)} />
+            <Button text="ListView" onTap={navigateTo.bind(null, <PageListView />)} />
             <Label className="mainHeading" text="Not Working / TBD" />
             <Button text="Border" onTap={navigateTo.bind(null, <PageBorder />)} />
             <Button text="ActionBar" onTap={navigateTo.bind(null, <PageActionBar />)} />

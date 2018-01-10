@@ -23,7 +23,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
   - (tested and in demo app) Progress
   - (tested and in demo app) ActivityIndicator
   - (tested and in demo app) Image
-  - ListView
+  - (tested and in demo app) ListView
   - (tested and in demo app) HtmlView
   - (tested and in demo app) WebView
   - (tested and in demo app) TabView
