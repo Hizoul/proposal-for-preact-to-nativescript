@@ -208,8 +208,6 @@
       }
   }
   function diffAttributes(dom, attrs, old) {
-      console.log("diffing attributes", JSON.stringify(attrs))
-      console.log("against", JSON.stringify(old))
       var name;
       for (name in old) if ((!attrs || null == attrs[name]) && null != old[name]) setAccessor(dom, name, old[name], old[name] = void 0, isSvgMode);
       for (name in attrs) if (!('children' === name || 'innerHTML' === name || name in old && attrs[name] === ('value' === name || 'checked' === name ? dom[name] : old[name]))) setAccessor(dom, name, old[name], old[name] = attrs[name], isSvgMode);
