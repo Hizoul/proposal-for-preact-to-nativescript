@@ -35,6 +35,15 @@ let extensions = {
   removeAttributeNS(name) {
     delete this[name]
   },
+  // Wrapper because some NativeScript Elements don't have addChild
+  callAddChild(child, offset) {
+    if (this.nodeName === "SEGMENTEDBAR") {
+      this.items = this.childNodes.slice(0)
+    } else {
+      this.addChild(child, offset)
+    }
+    
+  },
   appendChild(child) {
     console.log(`appending ${child.nodeName} to ${this.nodeName}`)
     if ('text' in this && child.splitText!=null) {
@@ -43,34 +52,39 @@ let extensions = {
     else {
       this.childNodes.push(child)
       child.parentNode = this
-      this.addChild(child);
     }
+    this.callAddChild(child)
   },
   insertBefore(child, ref) {
     console.log(`inserting ${child.nodeName} before ${ref.nodeName} in  ${this.nodeName}`)
     child.remove()
     // find the index at which to insert the child based on ref:
-    let offset, index = -1;
-    this.eachChild( c => {
-      index++;
-      if (c===ref) offset = index;
-    });
-    if (offset!=null) {
-      child.parentNode = this
+    let offset = this.childNodes.indexOf(ref)
+    child.parentNode = this
+    console.log(`found offset is ${offset} ${this.childNodes.length}`)
+    if (offset !== undefined && offset !== null) {
       this.childNodes.splice(offset, 0, child)
-      this.addChild(child, offset);
+      this.callAddChild(child, offset);
     } else {
-      child.parentNode = this
       this.childNodes.push(child)
-      this.addChild(child)
+      this.callAddChild(child)
     }
   },
   replaceChild(child, ref) {
     console.log(`replacing ${child.nodeName} with ${ref.nodeName}`)
     if (ref.parentNode===this) {
-      this.insertBefore(child, ref);
-      ref.remove();
+      this.insertBefore(child, ref)
+      ref.remove()
     }
+  },
+  // Wrapper because some NativeScript Elements don't have removeChild
+  callRemoveChild(child) {
+    if (this.nodeName === "SEGMENTEDBAR") {
+      this.items = this.childNodes.slice(0)
+    } else {
+      this.removeChild(child)
+    }
+    
   },
   removeChild(child) {
     console.log(`removing ${child.nodeName} from ${this.nodeName}`)
@@ -82,11 +96,9 @@ let extensions = {
     } else {
       const childIndex = this.childNodes.indexOf(child)
       if (childIndex !== -1) {
-        console.log("prev length" + this.childNodes.length)
-        this.childNodes = this.childNodes.splice(childIndex, 1)
-        console.log("newchildnodes length" + this.childNodes.length)
+        this.childNodes.splice(childIndex, 1)
       }
-      this.removeChild(child);
+      this.callRemoveChild(child);
     }
     child.parentNode = null
   },
@@ -165,49 +177,6 @@ const document = {
       currentPage = el
       el.addChild = (addedChild) => {
         el.content = addedChild
-      }
-    }
-    if (type === "segmentedbar") {
-      el.newItems = []
-      // todo: figure out why in addChild after remove still old array is used
-      el.addChild = (addedChild) => {
-        el.newItems = el.newItems.slice(0)
-        el.newItems.push(addedChild)
-        el.childNodes.push(addedChild)
-        addedChild.parentNode = el
-        el.items = el.newItems
-        
-      }
-      el.removeChild = (toRemove) => {
-        const remIndex = el.newItems.indexOf(toRemove)
-        if (remIndex !== -1) {
-          el.childNodes.splice(remIndex, 1)
-          el.newItems = el.newItems.slice(0)
-          el.newItems.splice(remIndex, 1)
-          el.items = el.newItems
-        }
-      }
-      el.insertBefore = (child, ref) => {
-        child.remove()
-        let offset, index = -1;
-        el.childNodes.forEach( c => {
-          index++;
-          if (c===ref) offset = index;
-        });
-        if (offset!=null) {
-          child.parentNode = el
-          el.newItems = el.newItems.slice(0)
-          el.childNodes.splice(offset, 0, child)
-          el.newItems.splice(offset, 0, child)
-          child.parentNode = el
-          el.items = el.newItems
-        } else {
-          el.newItems = el.newItems.slice(0)
-          el.newItems.push(child)
-          el.childNodes.push(child)
-          child.parentNode = el
-          el.items = el.newItems
-        }
       }
     }
     return el

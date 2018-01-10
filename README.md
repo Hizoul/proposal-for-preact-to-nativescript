@@ -27,7 +27,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
   - (tested and in demo app) HtmlView
   - (tested and in demo app) WebView
   - TabView
-  - SegmentedBar
+  - (tested and in demo app) SegmentedBar
   - DatePicker
   - TimePicker
   - ListPicker
