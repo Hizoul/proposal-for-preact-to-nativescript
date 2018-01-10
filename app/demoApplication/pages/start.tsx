@@ -9,6 +9,7 @@ import PageSlider from "./slider"
 import PageImage from "./image"
 import PageHtml from "./htmlView"
 import PageSegmentedBar from "./segmentedBar"
+import PageTabView from "./tabView"
 import PageActivityIndicator from "./activityIndicator"
 import FlexboxLayout from '../../components/flexboxLayout'
 import TextView from "../../components/textView"
@@ -36,8 +37,7 @@ class Comp extends Component {
             <Button text="Image" onTap={navigateTo.bind(null, <PageImage />)} />
             <Button text="HtmlView & WebView" onTap={navigateTo.bind(null, <PageHtml />)} />
             <Button text="SegmentedBar" onTap={navigateTo.bind(null, <PageSegmentedBar />)} />
-            <Button text="SegmentedBar" onTap={navigateTo.bind(null, <PageSegmentedBar />)} />
-            <Button text="SegmentedBar" onTap={navigateTo.bind(null, <PageSegmentedBar />)} />
+            <Button text="TabView" onTap={navigateTo.bind(null, <PageTabView />)} />
             <Label className="mainHeading" text="Not Working / TBD" />
             <Button text="Border" onTap={navigateTo.bind(null, <PageBorder />)} />
             <Button text="ActionBar" onTap={navigateTo.bind(null, <PageActionBar />)} />

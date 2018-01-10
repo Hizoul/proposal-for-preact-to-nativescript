@@ -37,8 +37,12 @@ let extensions = {
   },
   // Wrapper because some NativeScript Elements don't have addChild
   callAddChild(child, offset) {
-    if (this.nodeName === "SEGMENTEDBAR") {
+    if (this.nodeName === "SEGMENTEDBAR" || this.nodeName === "TABVIEW") {
       this.items = this.childNodes.slice(0)
+    } else if (this.nodeName === "TABVIEWITEM") {
+      this.view = child
+    } else if (this.nodeName === "PAGE") {
+      this.content = child
     } else {
       this.addChild(child, offset)
     }
@@ -112,6 +116,9 @@ let extensions = {
 const isUpperCase = (inspect: string) => inspect === inspect.toUpperCase()
 
 const convertType = (type: string) => {
+  if (type.toLowerCase() === "tabviewitem") {
+    return "tab-view"
+  }
   if (type.toLowerCase() === "segmentedbaritem") {
     return "segmented-bar"
   }
@@ -172,12 +179,6 @@ const document = {
     el.set = (name, value) => {
       console.log("callinggset with " + name + " and " + value)
       el[name] = value
-    }
-    if (type === "page") {
-      currentPage = el
-      el.addChild = (addedChild) => {
-        el.content = addedChild
-      }
     }
     return el
   },
