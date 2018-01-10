@@ -168,12 +168,46 @@ const document = {
       }
     }
     if (type === "segmentedbar") {
-      let newItems = []
-      // todo: handle removal
+      el.newItems = []
+      // todo: figure out why in addChild after remove still old array is used
       el.addChild = (addedChild) => {
-        newItems = newItems.slice(0)
-        newItems.push(addedChild)
-        el.items = newItems
+        el.newItems = el.newItems.slice(0)
+        el.newItems.push(addedChild)
+        el.childNodes.push(addedChild)
+        addedChild.parentNode = el
+        el.items = el.newItems
+        
+      }
+      el.removeChild = (toRemove) => {
+        const remIndex = el.newItems.indexOf(toRemove)
+        if (remIndex !== -1) {
+          el.childNodes.splice(remIndex, 1)
+          el.newItems = el.newItems.slice(0)
+          el.newItems.splice(remIndex, 1)
+          el.items = el.newItems
+        }
+      }
+      el.insertBefore = (child, ref) => {
+        child.remove()
+        let offset, index = -1;
+        el.childNodes.forEach( c => {
+          index++;
+          if (c===ref) offset = index;
+        });
+        if (offset!=null) {
+          child.parentNode = el
+          el.newItems = el.newItems.slice(0)
+          el.childNodes.splice(offset, 0, child)
+          el.newItems.splice(offset, 0, child)
+          child.parentNode = el
+          el.items = el.newItems
+        } else {
+          el.newItems = el.newItems.slice(0)
+          el.newItems.push(child)
+          el.childNodes.push(child)
+          child.parentNode = el
+          el.items = el.newItems
+        }
       }
     }
     return el
@@ -206,6 +240,12 @@ const render = (Component: VNode) => {
         newChild.addCssFile(newChild.cssFile)
       }
       renderBody.childNodes.push(newChild)
+    },
+    removeChild: () => {
+      console.log("attempting to remove body child")
+    },
+    remove: () => {
+      console.log("attempting to remove body")
     }
   }
   Preact.render(Component, renderBody)
