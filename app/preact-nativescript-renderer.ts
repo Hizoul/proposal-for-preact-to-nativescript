@@ -2,7 +2,7 @@ import { VNode } from 'preact';
 declare const global: any
 
 let TextElement: any
-
+let Preact
 function findWhere(arr, fn, returnIndex, byValueOnly?) {
 	let i = arr.length;
 	while (i--) if (typeof fn==='function' && !byValueOnly ? fn(arr[i]) : arr[i]===fn) break;
@@ -49,7 +49,7 @@ let extensions = {
     
   },
   appendChild(child) {
-    console.log(`appending ${child.nodeName} to ${this.nodeName}`)
+    console.log(`appending ${child.nodeName} to ${this.nodeName}`, Object.keys(this))
     if ('text' in this && child.splitText!=null) {
       this.text = child.nodeValue;
     }
@@ -85,8 +85,15 @@ let extensions = {
   callRemoveChild(child) {
     if (this.nodeName === "SEGMENTEDBAR") {
       this.items = this.childNodes.slice(0)
+    } else if (this.nodeName === "PAGE") {
+      this.content = null
     } else {
-      this.removeChild(child)
+      if (this._removeView) {
+        this._removeView(child)
+      }
+      else {
+        this.removeChild(child)
+      }
     }
     
   },
@@ -94,9 +101,6 @@ let extensions = {
     console.log(`removing ${child.nodeName} from ${this.nodeName}`)
     if ('text' in this && child.splitText!=null) {
       this.text = '';
-    } else if (this.content !== null) { // if is page
-      this.content = null
-      this.childNodes = []
     } else {
       const childIndex = this.childNodes.indexOf(child)
       if (childIndex !== -1) {
@@ -174,11 +178,18 @@ const document = {
     el = new el()
     el.nodeType = 1
     el.nodeName = type.toUpperCase()
+    el.unloaded = false
     el.attributes = []
     el.childNodes = []
     el.set = (name, value) => {
       console.log("callinggset with " + name + " and " + value)
       el[name] = value
+    }
+    if (type === "page") {
+      el.on("unloaded", (data) => {
+        el.remove()
+        console.log("got unloaded", Object.keys(data))
+      })
     }
     return el
   },
@@ -197,29 +208,47 @@ const document = {
 
 global.document = document
 declare const require: (name: string) => any
-const Preact = require('./preact')
+Preact = require('./preact')
 var h = Preact.h
 TextElement = require("tns-core-modules/ui/text-view").TextView
 let types = {};
 // preact-render-to-nativescript
-const render = (Component: VNode) => {
-  const renderBody = {
-    childNodes: [],
-    appendChild: (newChild) => {
-      if (newChild.cssFile) {
-        newChild.addCssFile(newChild.cssFile)
+const render = (Component: VNode, parent?: any, merge?: any) => {
+  if (parent === undefined || parent === null) {
+    parent = {
+      nodeType: "artificalParent",
+      nodeName: "artificalParent",
+      attributes: [],
+      childNodes: [],
+      appendChild: (newChild) => {
+        if (newChild.cssFile) {
+          newChild.addCssFile(newChild.cssFile)
+        }
+        parent.childNodes.push(newChild)
+        newChild.parentNode = parent
+      },
+      removeChild: (child) => {
+        console.log("attempting to remove body child")
+        const childIndex = parent.childNodes.indexOf(child)
+        if (childIndex !== -1) {
+          parent.childNodes.splice(childIndex, 1)
+        }
+      },
+      remove: () => {
+        console.log("attempting to remove body")
+        // for (const child of parent.childNodes) {
+        //   child.remove()
+        // }
+        // delete parent.nodeType
+        // delete parent.nodeName
+        // delete parent.attributes
+        // delete parent.childNodes
+        // parent = null
       }
-      renderBody.childNodes.push(newChild)
-    },
-    removeChild: () => {
-      console.log("attempting to remove body child")
-    },
-    remove: () => {
-      console.log("attempting to remove body")
     }
   }
-  Preact.render(Component, renderBody)
-  return renderBody.childNodes[0]
+  Preact.render(Component, parent, merge)
+  return parent.childNodes[0]
 }
 
 export default render

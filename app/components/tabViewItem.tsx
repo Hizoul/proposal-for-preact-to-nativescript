@@ -3,7 +3,7 @@ import { h, Component } from "../preact"
 
 class TabViewItem extends Component {
   render() {
-    return h('TabViewItem', this.props, this.props.children)
+    return h('tabViewItem', this.props, this.props.children)
   }
 }
 
