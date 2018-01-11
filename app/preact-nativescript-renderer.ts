@@ -177,19 +177,12 @@ const document = {
     }
     el = new el()
     el.nodeType = 1
-    el.nodeName = type.toUpperCase()
-    el.unloaded = false
+    el.nodeName = type.toUpperCase()                                                   
     el.attributes = []
     el.childNodes = []
     el.set = (name, value) => {
       console.log("callinggset with " + name + " and " + value)
       el[name] = value
-    }
-    if (type === "page") {
-      el.on("unloaded", (data) => {
-        el.remove()
-        console.log("got unloaded", Object.keys(data))
-      })
     }
     return el
   },
