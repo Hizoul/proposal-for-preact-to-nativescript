@@ -20,14 +20,17 @@ import TextField from "../../components/textField"
 import navigateTo from '../../util/navigateTo'
 import Button from '../../components/button'
 import Label from '../../components/label'
+import ActionBar from '../../components/actionBar'
 import ScrollView from '../../components/scrollView'
 import StackLayout from "../../components/stackLayout"
 import AbsoluteLayout from '../../components/absoluteLayout'
+import ActionItem from "../../components/actionItem";
 
 class Comp extends Component {
   render() {
     return (
       <Page cssFile="demoApplication/pages/start.css">
+          <ActionBar text="Preact to Nativescript Menu" />
           <ScrollView orientation="vertical">
             <StackLayout>
               <Label className="mainHeading" text="Working" />

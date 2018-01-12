@@ -7,6 +7,7 @@ import Progress from "../../components/progress"
 import TextField from "../../components/textField"
 import TabView from "../../components/tabView"
 import TabViewItem from "../../components/tabViewItem"
+import ActionBar from "../../components/actionBar"
 import { setValueTrigger, setValueViaEvent } from "../components/valueHelpers"
 import { goBack } from "../../util/navigateTo"
 
@@ -19,6 +20,7 @@ class PageTabView extends Component {
   render() {
     return (
       <Page>
+        <ActionBar text="Tabs" />
         <StackLayout>
           <Label text={`Selection is ${this.state.value}`} />
           <TabView selectedIndex={this.state.value} onSelectedIndexChange={this.setValue}>

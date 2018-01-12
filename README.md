@@ -9,7 +9,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 - Styling by using className or id as identifier
 - Navigation
   - Basic Navigation by [navigating to element](https://docs.nativescript.org/core-concepts/navigation#example-3--how-to-navigate-to-a-page-dynamically-created-via-code) but doesn't unload / unmount / remount properly yet
-  - Navigation also possible by using preact-router (not fully functional because on back press undefined error because of conflicting custom preact version that doesn't get loaded by preact-router)
+  - Navigation also possible by using preact-router (not fully functional because on back press undefined error because of conflicting custom preact version that doesn't get loaded by preact-router so should work)
   - Navigation also possible via custom js code see custom-router for reference
 
 ![Demo](https://github.com/Hizoul/proposal-for-preact-to-nativescript/raw/master/demo.gif)
@@ -17,8 +17,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 ## What needs to be done
 - Try out and add wrappers for all NativeScript components
   - (basics tested and got wrappers) Page, Button, TextField, TextView
-  - (requires some work because it uses a special ref syntax for nativescript) ActionBar
-  - (requires some more work documentation on nativescript side is sparse and addChild method is missing for component) Border
+  - (tested and in demo app / works mostly) ActionBar
   - (tested and in demo app) Label
   - (tested and in demo app) SearchBar
   - (tested and in demo app) Switch

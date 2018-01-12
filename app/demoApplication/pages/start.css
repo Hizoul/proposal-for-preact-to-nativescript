@@ -18,3 +18,7 @@ Image {
   font-size: 36pt;
   color: blue
 }
+
+.bordered {
+  border-width: 2pt; border-color: #FF0000; font-size: 30pt;
+}

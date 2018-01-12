@@ -11,9 +11,9 @@ import ActivityIndicator from "../../components/activityIndicator"
 class PageActivityIndicator extends Component {
   render() {
     return (
-      <Page>
+      <Page cssFile="demoApplication/pages/start.css">
         <StackLayout>
-          <Label text="Busy Label" />
+          <Label text="Busy Label" className="bordered" />
           <ActivityIndicator busy={true} />
           <TextView text="Not Busy TextView" />
           <ActivityIndicator busy={false} />

@@ -7,6 +7,7 @@ import SearchBar from "../../components/searchBar"
 import Switch from "../../components/switch"
 import { setValueTrigger, setValueViaEvent } from "../components/valueHelpers"
 import { goBack } from "../../util/navigateTo"
+import ActionBar from "../../components/actionBar"
 
 class PageSwitch extends Component {
   setS1: Function
@@ -26,6 +27,7 @@ class PageSwitch extends Component {
   render() {
     return (
       <Page>
+        <ActionBar text="Switch" />
         <StackLayout>
           <Label
             text={`Switch #1 value is ${this.getVal("s1")}`}

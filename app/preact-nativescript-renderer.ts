@@ -11,6 +11,9 @@ function findWhere(arr, fn, returnIndex, byValueOnly?) {
 
 let currentPage: any
 
+const makeSame = (orig, makeToThis) => {
+}
+
 // stuff to mix into NS's view prototypes
 // mostly copied from Node in undom (https://github.com/developit/undom/blob/master/src/undom.js)
 let extensions = {
@@ -42,7 +45,23 @@ let extensions = {
     } else if (this.nodeName === "TABVIEWITEM") {
       this.view = child
     } else if (this.nodeName === "PAGE") {
-      this.content = child
+      if (child.nodeName === "ACTIONBAR") {
+        this.actionBar = child
+      } else {
+        this.content = child
+      }
+    } else if (this.nodeName === "ACTIONBAR") {
+      if (child.nodeName === "ACTIONITEM") {
+        this.actionItems.addItem(child)
+      } else if (child.nodeName === "NAVIGATIONBUTTON") {
+        console.log("SETTING NAVBUTT")
+        this.navigationButton = child
+        console.log("successfully set navbutt")
+      } else {
+        this.titleView = child
+      }
+    } else if (this.nodeName === "ACTIONITEM" || this.nodeName === "NAVIGATIONBUTTON") {
+      this.actionView = child
     } else {
       this.addChild(child, offset)
     }
@@ -86,10 +105,26 @@ let extensions = {
     if (this.nodeName === "SEGMENTEDBAR") {
       this.items = this.childNodes.slice(0)
     } else if (this.nodeName === "PAGE") {
-      if (this.content === child) {
+      if (child.nodeName === "ACTIONBAR") {
+        if (this.actionBar === child) {
+          this.actionBar = null
+        }
+      } else if (this.content === child) {
         this.content = null
       }
-    } else {
+    } else if (this.nodeName === "ACTIONBAR") {
+      if (child.nodeName === "ACTIONITEM") {
+        this.actionItems.removeItem(child)
+      } else if (child.nodeName === "NAVIGATIONBUTTON") {
+        if (this.navigationButton === child) {
+          this.navigationButton = null
+        }
+      } else {
+        this.titleView = null
+      }
+    } else if (this.nodeName === "ACTIONITEM" || this.nodeName === "NAVIGATIONBUTTON") {
+      this.actionView = null
+    }  else {
       if (this._removeView) {
         this._removeView(child)
       }
@@ -132,6 +167,9 @@ const convertType = (type: string) => {
   }
   if (type.toLowerCase() === "segmentedbaritem") {
     return "segmented-bar"
+  }
+  if (type.toLowerCase() === "actionitem" || type.toLowerCase() === "navigationbutton") {
+    return "action-bar"
   }
   let newType = ""
   for (let i = 0; i < type.length; i++) {
