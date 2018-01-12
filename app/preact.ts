@@ -13,6 +13,9 @@ const Component: preact.ComponentConstructor<any, any> = importedPreact.Componen
 
 const render = importedPreact.render
 
+const unmountComponent: any = importedPreact.unmountComponent
+const renderComponent: any = importedPreact.renderComponent
+
 export {
-  h, Component, render
+  h, Component, render, unmountComponent, renderComponent
 }

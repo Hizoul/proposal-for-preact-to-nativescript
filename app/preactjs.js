@@ -403,7 +403,8 @@
       Component: Component,
       render: render,
       rerender: rerender,
-      options: options
+      options: options,
+      unmountComponent: unmountComponent
   };
   if ('undefined' != typeof module) module.exports = preact; else self.preact = preact;
 }();

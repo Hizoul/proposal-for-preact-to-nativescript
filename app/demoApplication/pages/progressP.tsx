@@ -7,6 +7,7 @@ import Progress from "../../components/progress"
 import TextField from "../../components/textField"
 import { setValueTrigger, setValueViaEvent } from "../components/valueHelpers"
 import { goBack } from "../../util/navigateTo"
+import holder from '../components/router';
 
 class PageProgress extends Component {
   updateValue: Function
@@ -22,7 +23,7 @@ class PageProgress extends Component {
       }
       thisRef.setState({value: newVal})
     }
-    this.intervalHandle = setInterval(this.updateValue, 50)
+    // this.intervalHandle = setInterval(this.updateValue, 50)
   }
   componentWillUnmount() {
     clearInterval(this.intervalHandle)
@@ -34,7 +35,10 @@ class PageProgress extends Component {
             text={`Increasing every 700ms`}
           />
           <Progress value={this.state.value} />
-          <Button text="Back" onTap={goBack} />
+          <Button key="pb" text="Back" onTap={() => {
+            console.log("got")
+            this.props.goBack()
+          }} />
         </StackLayout>
     )
   }

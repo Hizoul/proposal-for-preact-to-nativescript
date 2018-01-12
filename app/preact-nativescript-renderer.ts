@@ -77,8 +77,8 @@ let extensions = {
   replaceChild(child, ref) {
     console.log(`replacing ${child.nodeName} with ${ref.nodeName}`)
     if (ref.parentNode===this) {
-      this.insertBefore(child, ref)
       ref.remove()
+      this.insertBefore(child, ref)
     }
   },
   // Wrapper because some NativeScript Elements don't have removeChild
@@ -86,7 +86,9 @@ let extensions = {
     if (this.nodeName === "SEGMENTEDBAR") {
       this.items = this.childNodes.slice(0)
     } else if (this.nodeName === "PAGE") {
-      this.content = null
+      if (this.content === child) {
+        this.content = null
+      }
     } else {
       if (this._removeView) {
         this._removeView(child)
@@ -110,11 +112,16 @@ let extensions = {
     }
     child.parentNode = null
   },
+  // loaded and unloaded for possible native navigation but remount not working yet
   remove() {
     if (this.parentNode) {
       this.parentNode.removeChild(this)
       this.parentNode = null
     }
+  },
+  remount() {
+    // this.renderedInto = Preact.render(this.renderedComponent)
+    // this.content = this.renderedInto.content
   }
 };
 const isUpperCase = (inspect: string) => inspect === inspect.toUpperCase()
@@ -137,7 +144,7 @@ const convertType = (type: string) => {
 const document = {
   createElement(type) {
     if (type === "undefined") {
-      type = "view"
+      type = "stackLayout"
     }
     // imports and augments NS view classes on first use
     const originalType = type
@@ -179,6 +186,8 @@ const document = {
       types[type] = el;
     }
     el = new el()
+    el.loaded = false
+    el.firstLoad = true
     el.nodeType = 1
     el.nodeName = type.toUpperCase()                                                   
     el.attributes = []
@@ -187,6 +196,32 @@ const document = {
       console.log("callinggset with " + name + " and " + value)
       el[name] = value
     }
+    // if (type === "page") {
+    //   // loaded and unloaded for possible native navigation but remount not working yet
+    //   el.on("unloaded", (a, b) => {
+    //     console.log(`unloaded page ${typeof(a)} ${typeof(b)}`, Object.keys(a))
+    //     if (el.loaded) {
+    //       el.remove()
+    //     }
+    //     el.loaded = false
+    //   })
+    //   el.on("loaded", (a, b) => {
+    //     console.log(`loaded page ${typeof(a)} ${typeof(b)}`, Object.keys(a))
+    //     if (!el.firstLoad && !el.loaded) {
+    //       el.remount()
+    //     }
+    //     if (el.firstLoad) {
+    //       el.firstLoad = false
+    //     }
+    //     el.loaded = true
+    //     el.on("_tearDownUI", (a) => {
+    //       console.log(`got teardown ui`, Object.keys(a))
+    //     })
+    //     el.on("_removeViewFromNativeVisualTree", (a) => {
+    //       console.log(`got teardown ui`, Object.keys(a))
+    //     })
+    //   })
+    // }
     return el
   },
   createTextNode(text) {
@@ -216,12 +251,17 @@ const render = (Component: VNode, parent?: any, merge?: any) => {
       nodeName: "artificalParent",
       attributes: [],
       childNodes: [],
+      renderedComponent: null,
+      mergeInto: null,
+      renderedInto: null,
       appendChild: (newChild) => {
         if (newChild.cssFile) {
           newChild.addCssFile(newChild.cssFile)
         }
         parent.childNodes.push(newChild)
         newChild.parentNode = parent
+        newChild.renderedComponent = parent.renderedComponent
+        newChild.mergeInto = parent.mergeInto
       },
       removeChild: (child) => {
         console.log("attempting to remove body child")
@@ -243,7 +283,12 @@ const render = (Component: VNode, parent?: any, merge?: any) => {
       }
     }
   }
-  Preact.render(Component, parent, merge)
+  parent.renderedComponent = Component
+  parent.mergeInto = merge
+  const renderedInto = Preact.render(Component, parent, merge)
+  for (const child of parent.childNodes) {
+    child.renderedInto = renderedInto
+  }
   return parent.childNodes[0]
 }
 

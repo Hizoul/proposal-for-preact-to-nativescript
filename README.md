@@ -7,7 +7,10 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 - Basic handling of events (onTap, onTextChange, onSubmit, onClear)
 - Adjusting UI to state changes
 - Styling by using className or id as identifier
-- Basic Navigation by [navigating to element](https://docs.nativescript.org/core-concepts/navigation#example-3--how-to-navigate-to-a-page-dynamically-created-via-code)
+- Navigation
+  - Basic Navigation by [navigating to element](https://docs.nativescript.org/core-concepts/navigation#example-3--how-to-navigate-to-a-page-dynamically-created-via-code) but doesn't unload / unmount / remount properly yet
+  - Navigation also possible by using preact-router (not fully functional because on back press undefined error because of conflicting custom preact version that doesn't get loaded by preact-router)
+  - Navigation also possible via custom js code see custom-router for reference
 
 ![Demo](https://github.com/Hizoul/proposal-for-preact-to-nativescript/raw/master/demo.gif)
 
@@ -39,16 +42,15 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
     - Stacklayout
     - WrapLayout
     - FlexboxLayout
-- Figure out why componentWillUnomount in progress example is not being called
 - Try a more sophisitcated rendering example
 - Documentation
 - See if preact changes may be merged into the actual lib so no custom one needs to be used
 - Clean up code (many ugly typescript hacks, no proper docs and typings used etc.)
 - Probably a lot more hiccups that need fixing but aren't in scope yet
-- Unmounting on Go Back
 - Write tests for the code
 - Split up Library into pure renderer and convienence JSX-Helpers for minimal code per wanted lib
 - Demo Application
+
 ## Running the Demo
 Assuming nativescript & typescript is setup
 

@@ -4,6 +4,7 @@ import render from '../preact-nativescript-renderer';
 
 const navigateTo = (comp: VNode) => {
   const topmost = frame.topmost()
+  topmost.android.cachePagesOnNavigate = false
   topmost.navigate(render.bind(this, comp))
 }
 

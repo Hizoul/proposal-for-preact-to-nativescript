@@ -11,7 +11,7 @@ import PageHtml from "./htmlView"
 import PageSegmentedBar from "./segmentedBar"
 import PageTabView from "./tabView"
 import PageListView from "./listView"
-import PageActivityIndicator from "./activityIndicatorP"
+import PageActivityIndicator from "./activityIndicatorC"
 import FlexboxLayout from '../../components/flexboxLayout'
 import TextView from "../../components/textView"
 import TextField from "../../components/textField"
@@ -24,20 +24,44 @@ import AbsoluteLayout from '../../components/absoluteLayout'
 import {Router, Route} from "preact-router"
 import holder from '../components/router';
 
-class PagePreactRouter extends Component {
+const routes = [
+  {default: true, path: "/", component: PageActivityIndicator},
+  {path: "/test", component: PageProgress}
+]
+
+class PageCustomRouter extends Component {
+  setNav: Function
+  goBack: Function
+  constructor(props) {
+    super(props)
+    this.state = {
+      route: "/",
+      navStack: []
+    }
+    this.setNav = (newRoute) => {
+      const newStack = this.state.navStack.splice()
+      newStack.push(newRoute)
+      this.setState({route: newRoute, navStack: newStack})
+    }
+    this.goBack = () => {
+      const newStack = this.state.navStack.splice()
+      newStack.pop()
+      this.setState({route: newStack[newStack.length - 1], navStack: newStack})
+    }
+  }
   render() {
+    let Comp = StackLayout
+    for (const route of routes) {
+      if (this.state.route === route.path) {
+        Comp = route.component
+      }
+    }
     return (
       <Page>
-        <Router key="rou" ref={(ref) => {
-          console.log("calling routerref")
-          holder.router = ref
-        }}>
-          <Route key="prog" component={PageProgress} path="/test" />
-          <Route key="act" component={PageActivityIndicator} path="/" default />
-        </Router>
+        <Comp navigateTo={this.setNav} goBack={this.goBack} />
       </Page>
     )
   }
 }
 
-export default PagePreactRouter
+export default PageCustomRouter

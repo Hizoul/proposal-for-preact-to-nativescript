@@ -26,7 +26,8 @@ class PageSegmentedBar extends Component {
           <ListView
             items={items}
             onItemLoading={(args) => {
-              args.view = render(<Label text={items[args.index]} />, null, args.view)
+              let parent = args.view && args.view.parentNode ? args.view.parentNode : null
+              args.view = render(<Label text={items[args.index]} />, parent, args.view)
             }}
           />
           <Button text="Set List to 2 Entries" onTap={this.setValue.bind(this, {value: ["first", "second"]})} />
