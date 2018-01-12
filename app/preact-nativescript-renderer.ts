@@ -62,6 +62,8 @@ let extensions = {
       }
     } else if (this.nodeName === "ACTIONITEM" || this.nodeName === "NAVIGATIONBUTTON") {
       this.actionView = child
+    } else if (this.nodeName === "SCROLLVIEW") {
+      this.content = child
     } else {
       this.addChild(child, offset)
     }
@@ -124,11 +126,12 @@ let extensions = {
       }
     } else if (this.nodeName === "ACTIONITEM" || this.nodeName === "NAVIGATIONBUTTON") {
       this.actionView = null
-    }  else {
-      if (this._removeView) {
+    } else if (this.nodeName === "SCROLLVIEW") {
+      this.content = null
+    } else {
+      if (this.removeChild === undefined || this.removeChild === null) {
         this._removeView(child)
-      }
-      else {
+      } else {
         this.removeChild(child)
       }
     }

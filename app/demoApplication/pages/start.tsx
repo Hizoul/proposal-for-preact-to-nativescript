@@ -31,7 +31,7 @@ class Comp extends Component {
     return (
       <Page cssFile="demoApplication/pages/start.css">
           <ActionBar text="Preact to Nativescript Menu" />
-          <ScrollView orientation="vertical">
+          <ScrollView>
             <StackLayout>
               <Label className="mainHeading" text="Working" />
               <Button text="ActivityIndicator" onTap={navigateTo.bind(null, <PageActivityIndicator />)} />
