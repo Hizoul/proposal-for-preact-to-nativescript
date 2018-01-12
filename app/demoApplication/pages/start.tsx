@@ -13,6 +13,7 @@ import PageTabView from "./tabView"
 import PageListView from "./listView"
 import PagePreactRouter from "./preact-router"
 import PagePickers from "./pickers"
+import PageDialogs from "./dialogs"
 import PageCustomRouter from "./custom-router"
 import PageActivityIndicator from "./activityIndicator"
 import FlexboxLayout from '../../components/flexboxLayout'
@@ -39,6 +40,7 @@ class Comp extends Component {
               <Button text="SearchBar" onTap={navigateTo.bind(null, <PageSearchBar />)} />
               <Button text="Preact-Router" onTap={navigateTo.bind(null, <PagePreactRouter />)} />
               <Button text="Custom-Router" onTap={navigateTo.bind(null, <PageCustomRouter />)} />
+              <Button text="Dialogs" onTap={navigateTo.bind(null, <PageDialogs />)} />
               <Button text="Progress" onTap={navigateTo.bind(null, <PageProgress />)} />
               <Button text="Slider" onTap={navigateTo.bind(null, <PageSlider />)} />
               <Button text="Image" onTap={navigateTo.bind(null, <PageImage />)} />
@@ -48,8 +50,6 @@ class Comp extends Component {
               <Button text="TabView" onTap={navigateTo.bind(null, <PageTabView />)} />
               <Button text="ListView" onTap={navigateTo.bind(null, <PageListView />)} />
               <Button text="Switch" onTap={navigateTo.bind(null, <PageSwitch />)} />
-              <Label className="mainHeading" text="Not Working / TBD" />
-              <Button text="Border" onTap={navigateTo.bind(null, <PageBorder />)} />
               <Button text="ActionBar" onTap={navigateTo.bind(null, <PageActionBar />)} />
             </StackLayout>
           </ScrollView>

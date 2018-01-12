@@ -15,26 +15,7 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 ![Demo](https://github.com/Hizoul/proposal-for-preact-to-nativescript/raw/master/demo.gif)
 
 ## What needs to be done
-- Try out and add wrappers for all NativeScript components
-  - (basics tested and got wrappers) Page, Button, TextField, TextView
-  - (tested and in demo app / works mostly) ActionBar
-  - (tested and in demo app) Label
-  - (tested and in demo app) SearchBar
-  - (tested and in demo app) Switch
-  - (tested and in demo app) Slider
-  - (tested and in demo app) Progress
-  - (tested and in demo app) ActivityIndicator
-  - (tested and in demo app) Image
-  - (tested and in demo app) ListView
-  - (tested and in demo app) HtmlView
-  - (tested and in demo app) WebView
-  - (tested and in demo app) TabView
-  - (tested and in demo app) SegmentedBar
-  - (tested and in demo app) DatePicker
-  - (tested and in demo app) TimePicker
-  - (tested and in demo app) ListPicker
-  - Dialogs
-  - (tested mostly) Layouts
+- (done in demo app) Try out and add wrappers for all NativeScript components
 - Try a more sophisitcated rendering example
 - Documentation
 - See if preact changes may be merged into the actual lib so no custom one needs to be used
@@ -43,6 +24,9 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
 - Write tests for the code
 - Split up Library into pure renderer and convienence JSX-Helpers for minimal code per wanted lib
 - Demo Application
+- ActionBar Known Limitations
+  - SystemIcon is not respected
+  - NavigationButton doesn't properly render
 
 ## Running the Demo
 Assuming nativescript & typescript is setup
