@@ -12,6 +12,7 @@ import PageSegmentedBar from "./segmentedBar"
 import PageTabView from "./tabView"
 import PageListView from "./listView"
 import PagePreactRouter from "./preact-router"
+import PagePickers from "./pickers"
 import PageCustomRouter from "./custom-router"
 import PageActivityIndicator from "./activityIndicator"
 import FlexboxLayout from '../../components/flexboxLayout'
@@ -41,6 +42,7 @@ class Comp extends Component {
               <Button text="Progress" onTap={navigateTo.bind(null, <PageProgress />)} />
               <Button text="Slider" onTap={navigateTo.bind(null, <PageSlider />)} />
               <Button text="Image" onTap={navigateTo.bind(null, <PageImage />)} />
+              <Button text="Date- / Time- / List-Picker" onTap={navigateTo.bind(null, <PagePickers />)} />
               <Button text="HtmlView & WebView" onTap={navigateTo.bind(null, <PageHtml />)} />
               <Button text="SegmentedBar" onTap={navigateTo.bind(null, <PageSegmentedBar />)} />
               <Button text="TabView" onTap={navigateTo.bind(null, <PageTabView />)} />

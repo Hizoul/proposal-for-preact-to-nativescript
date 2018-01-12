@@ -30,17 +30,11 @@ Building upon [this document implementation](https://github.com/staydecent/nativ
   - (tested and in demo app) WebView
   - (tested and in demo app) TabView
   - (tested and in demo app) SegmentedBar
-  - DatePicker
-  - TimePicker
-  - ListPicker
+  - (tested and in demo app) DatePicker
+  - (tested and in demo app) TimePicker
+  - (tested and in demo app) ListPicker
   - Dialogs
-  - Layouts
-    - AbsoluteLayout
-    - DockLayout
-    - GridLayout
-    - Stacklayout
-    - WrapLayout
-    - FlexboxLayout
+  - (tested mostly) Layouts
 - Try a more sophisitcated rendering example
 - Documentation
 - See if preact changes may be merged into the actual lib so no custom one needs to be used
