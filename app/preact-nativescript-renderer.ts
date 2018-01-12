@@ -136,6 +136,9 @@ const convertType = (type: string) => {
 
 const document = {
   createElement(type) {
+    if (type === "undefined") {
+      type = "view"
+    }
     // imports and augments NS view classes on first use
     const originalType = type
     type = type.toLowerCase()
